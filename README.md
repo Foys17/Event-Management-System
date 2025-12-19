@@ -72,7 +72,19 @@ Whether you are a **Client** requesting a birthday bash, an **Organizer** managi
 
 ## 📂 Project Architecture
 
-Event_Management_System/ ├── core/ # Main App Directory │ ├── migrations/ # Database Migrations │ ├── static/ # CSS, JS, Images │ ├── templates/ # HTML Templates │ │ ├── core/ # Dashboard & Feature Templates │ │ └── registration/ # Auth Templates │ ├── models.py # Database Schema │ ├── views.py # Business Logic │ └── forms.py # Form Validations ├── media/ # User Uploads (QR Codes, Logos) ├── event_management/ # Project Configuration ├── templates/ # Base Templates ├── manage.py # Django Command Utility └── requirements.txt # Python Dependencies
+Event_Management_System/ 
+├── core/ # Main App Directory │ 
+├── migrations/ # Database Migrations │ 
+├── static/ # CSS, JS, Images │ 
+├── templates/ # HTML Templates │ │ 
+├── core/ # Dashboard & Feature Templates │ │ └── registration/ # Auth Templates │ 
+├── models.py # Database Schema │ 
+├── views.py # Business Logic │ 
+└── forms.py # Form Validations 
+├── media/ # User Uploads (QR Codes, Logos) ── event_management/ # Project Configuration 
+├── templates/ # Base Templates 
+├── manage.py # Django Command Utility 
+└── requirements.txt # Python Dependencies
 
 
 ---
