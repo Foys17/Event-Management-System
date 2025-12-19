@@ -11,6 +11,7 @@
 
 ## 📖 Table of Contents
 - [About the Project](#-about-the-project)
+- [Live Demo](#-live-demo)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
 - [Project Architecture](#-project-architecture)
@@ -27,6 +28,11 @@
 **EventMaster** is a full-stack web application designed to streamline the complex process of event planning. It replaces disjointed spreadsheets and emails with a centralized dashboard for all stakeholders. 
 
 Whether you are a **Client** requesting a birthday bash, an **Organizer** managing budgets and logistics, a **Participant** buying tickets, or a **Sponsor** looking for brand visibility, EventMaster handles it all.
+
+---
+
+## 🚀 Live Demo
+Check out the live application here: [https://Foys17.pythonanywhere.com](https://Foys17.pythonanywhere.com)
 
 ---
 
