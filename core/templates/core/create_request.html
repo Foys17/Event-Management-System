@@ -1,0 +1,132 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    
+    <div class="max-w-2xl w-full space-y-8">
+        
+        <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-gray-100">
+            
+            <div class="bg-gray-900 px-8 py-10 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-purple-600/20 opacity-30"></div>
+                <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+                <div class="relative z-10">
+                    <div class="mx-auto w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 border border-white/20 shadow-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-indigo-300"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">Create Request</h2>
+                    <p class="mt-3 text-indigo-200 text-sm max-w-md mx-auto">
+                        Describe your vision, set your budget, and let our top-tier organizers bring your event to life.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-8 sm:p-12">
+                <form method="post" class="space-y-6 custom-request-form">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="rounded-xl bg-red-50 p-4 border-l-4 border-red-500 mb-6 animate-pulse">
+                            <div class="flex">
+                                <div class="flex-shrink-0"><i class="fa-solid fa-circle-exclamation text-red-500"></i></div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-bold text-red-800">Submission Error</h3>
+                                    <p class="text-xs text-red-600 mt-1">Please correct the highlighted fields below.</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="group">
+                            <label for="{{ field.id_for_label }}" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1 transition-colors group-focus-within:text-indigo-600">
+                                {{ field.label }}
+                            </label>
+                            
+                            <div class="relative">
+                                {{ field }}
+                                
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                    {% if 'budget' in field.name|lower %}
+                                        <i class="fa-solid fa-dollar-sign"></i>
+                                    {% elif 'type' in field.name|lower %}
+                                        <i class="fa-solid fa-tag"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if field.help_text %}
+                                <p class="mt-1 text-xs text-gray-400 ml-1">{{ field.help_text }}</p>
+                            {% endif %}
+                            
+                            {% if field.errors %}
+                                <p class="mt-1 text-xs text-red-600 font-semibold ml-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ field.errors.0 }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="pt-6 flex items-center justify-between border-t border-gray-100 mt-8">
+                        <a href="{% url 'client_dashboard' %}" class="text-sm font-bold text-gray-400 hover:text-gray-600 transition-colors px-4 py-2">
+                            Cancel
+                        </a>
+                        <button type="submit" class="group relative inline-flex justify-center py-3 px-8 border border-transparent text-sm font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5">
+                            <span class="flex items-center gap-2">
+                                Submit Request <i class="fa-solid fa-paper-plane text-indigo-300 group-hover:translate-x-1 transition-transform"></i>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Force Django Widgets to look like modern Tailwind Inputs.
+       This targets any input rendered by {{ field }} 
+    */
+    .custom-request-form input[type="text"],
+    .custom-request-form input[type="number"],
+    .custom-request-form input[type="email"],
+    .custom-request-form select,
+    .custom-request-form textarea {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 0.75rem; /* rounded-xl */
+        border: 1px solid #e5e7eb; /* gray-200 */
+        background-color: #f9fafb; /* gray-50 */
+        color: #1f2937;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    /* Focus State */
+    .custom-request-form input:focus, 
+    .custom-request-form select:focus, 
+    .custom-request-form textarea:focus {
+        background-color: white;
+        border-color: #6366f1; /* indigo-500 */
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); /* ring-4 ring-indigo-100 */
+    }
+
+    /* Hover State */
+    .custom-request-form input:hover, 
+    .custom-request-form textarea:hover {
+        background-color: #ffffff;
+        border-color: #d1d5db;
+    }
+
+    /* Textarea specific */
+    .custom-request-form textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}

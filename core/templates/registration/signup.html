@@ -1,0 +1,155 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-64px)] flex bg-white">
+    
+    <div class="hidden lg:flex lg:w-1/2 relative bg-gray-900 justify-center items-center overflow-hidden m-4 lg:m-0 rounded-[2.5rem] shadow-2xl">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1973&q=80" 
+                 alt="Sign Up Background" 
+                 class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/90 to-slate-900/50"></div>
+        </div>
+
+        <div class="relative z-10 p-12 text-white max-w-lg">
+            <div class="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-400/30 backdrop-blur-md">
+                <i class="fa-solid fa-rocket text-indigo-300"></i>
+            </div>
+            <h2 class="text-4xl font-bold mb-6">Join the Future of Event Management</h2>
+            <p class="text-lg text-indigo-100 mb-8 leading-relaxed">
+                "EventMaster gave us the tools to scale our conferences from 50 to 5,000 attendees without breaking a sweat."
+            </p>
+            
+            <ul class="space-y-4 text-sm text-indigo-200">
+                <li class="flex items-center gap-3">
+                    <i class="fa-solid fa-check-circle text-indigo-400"></i> Instant QR Code Ticketing
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="fa-solid fa-check-circle text-indigo-400"></i> Real-time Analytics Dashboard
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="fa-solid fa-check-circle text-indigo-400"></i> Secure Sponsorship Handling
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-8 bg-white">
+        <div class="w-full max-w-md space-y-8">
+            
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Create your account</h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Get started for free. No credit card required.
+                </p>
+            </div>
+
+            <form method="post" class="mt-8 space-y-6 custom-django-form">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                    <div class="rounded-lg bg-red-50 p-4 border border-red-200">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-circle-exclamation text-red-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                                <div class="mt-2 text-sm text-red-700">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="space-y-5">
+                    {% for field in form %}
+                        <div class="group">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1 pl-1">
+                                {{ field.label }}
+                            </label>
+                            
+                            <div class="relative">
+                                {{ field }}
+                                
+                                {% if field.errors %}
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if field.help_text %}
+                                <p class="mt-1 text-xs text-gray-500 pl-1">{{ field.help_text }}</p>
+                            {% endif %}
+                            
+                            {% if field.errors %}
+                                <p class="mt-1 text-xs text-red-600 pl-1">{{ field.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fa-solid fa-user-plus text-indigo-400 group-hover:text-indigo-300 transition-colors"></i>
+                        </span>
+                        Create Account
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-600">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+                        Login here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Since Django renders inputs with basic HTML, 
+       we target them here to apply Tailwind-like styles 
+    */
+    .custom-django-form input[type="text"],
+    .custom-django-form input[type="password"],
+    .custom-django-form input[type="email"],
+    .custom-django-form select {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #1f2937; /* gray-900 */
+        background-color: #f9fafb; /* gray-50 */
+        background-image: none;
+        background-clip: padding-box;
+        border: 1px solid #d1d5db; /* gray-300 */
+        border-radius: 0.75rem; /* rounded-xl */
+        transition: all 0.2s ease-in-out;
+    }
+
+    .custom-django-form input:focus,
+    .custom-django-form select:focus {
+        background-color: #ffffff;
+        border-color: #6366f1; /* indigo-500 */
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* ring-indigo */
+    }
+
+    /* Style the Help Text inside Django's generated lists */
+    .custom-django-form ul.helptext {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 4px;
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+</style>
+{% endblock %}

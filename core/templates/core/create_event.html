@@ -1,0 +1,172 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    
+    <div class="max-w-3xl w-full space-y-8">
+        <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-gray-100">
+            
+            <div class="bg-gray-900 px-8 py-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-900 to-purple-900 opacity-50"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                        {% if title %}{{ title }}{% else %}Create New Event{% endif %}
+                    </h2>
+                    <p class="mt-2 text-indigo-200 text-sm">
+                        Fill in the details below to launch your next big event.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-8 sm:p-10">
+                <form method="post" class="space-y-6 custom-event-form">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="rounded-xl bg-red-50 p-4 border-l-4 border-red-500 mb-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0"><i class="fa-solid fa-circle-exclamation text-red-500"></i></div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-bold text-red-800">Please fix the errors below</h3>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Event Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <p class="mt-1 text-xs text-red-600 ml-1">{{ form.title.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
+                                <i class="fa-solid fa-dollar-sign text-green-600 mr-1"></i> Total Budget
+                            </label>
+                            <div class="relative">
+                                {{ form.budget }}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                    <span class="text-xs">USD</span>
+                                </div>
+                            </div>
+                            {% if form.budget.errors %}
+                                <p class="mt-1 text-xs text-red-600 ml-1">{{ form.budget.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
+                                <i class="fa-solid fa-location-dot text-indigo-500 mr-1"></i> Location
+                            </label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <p class="mt-1 text-xs text-red-600 ml-1">{{ form.location.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
+                            Description & Requirements
+                        </label>
+                        {{ form.description }}
+                        <p class="mt-1 text-xs text-gray-400 ml-1">
+                            * If this event is from a client request, requirements are pre-filled.
+                        </p>
+                        {% if form.description.errors %}
+                            <p class="mt-1 text-xs text-red-600 ml-1">{{ form.description.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">
+                                Event Date & Time
+                            </label>
+                            {{ form.date }}
+                            {% if form.date.errors %}
+                                <p class="mt-1 text-xs text-red-600 ml-1">{{ form.date.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1 text-red-500">
+                                Registration Deadline
+                            </label>
+                            {{ form.registration_deadline }}
+                            {% if form.registration_deadline.errors %}
+                                <p class="mt-1 text-xs text-red-600 ml-1">{{ form.registration_deadline.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div class="flex items-center h-5">
+                            {{ form.is_active }}
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="{{ form.is_active.id_for_label }}" class="font-medium text-gray-700">Publish Event Immediately?</label>
+                            <p class="text-gray-500 text-xs">If unchecked, the event will be saved as a draft.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 flex items-center justify-end gap-4 border-t border-gray-100 mt-8">
+                        <a href="{% url 'organizer_dashboard' %}" class="px-6 py-3 rounded-xl text-sm font-bold text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                            Cancel
+                        </a>
+                        <button type="submit" class="px-8 py-3 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all">
+                            Save & Launch Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styling to force Django Widgets to look like Tailwind Inputs 
+       without needing to change forms.py widgets manually.
+    */
+    .custom-event-form input[type="text"],
+    .custom-event-form input[type="number"],
+    .custom-event-form input[type="datetime-local"],
+    .custom-event-form input[type="date"],
+    .custom-event-form textarea {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 0.75rem; /* rounded-xl */
+        border: 1px solid #e5e7eb; /* gray-200 */
+        background-color: #f9fafb; /* gray-50 */
+        transition: all 0.2s;
+        color: #1f2937;
+    }
+
+    .custom-event-form input:focus, 
+    .custom-event-form textarea:focus {
+        background-color: white;
+        border-color: #6366f1; /* indigo-500 */
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Style the Checkbox specifically */
+    .custom-event-form input[type="checkbox"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #4f46e5;
+        border-radius: 0.25rem;
+        border-color: #d1d5db;
+    }
+    
+    /* Make Textarea taller */
+    .custom-event-form textarea {
+        min-height: 120px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,40 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Django ---
+*.log
+local_settings.py
+/staticfiles/
+
+# --- Database (SQLite - keep just in case) ---
+db.sqlite3
+db.sqlite3-journal
+
+# --- Database (MySQL) ---
+# Ignore SQL dumps/backups developers often create
+*.sql
+*.sql.gz
+# Ignore local MySQL config files containing passwords
+.my.cnf
+
+# --- Media & Uploads ---
+media/
+!media/.gitkeep
+
+# --- Virtual Environment ---
+venv/
+env/
+.venv/
+.env
+
+# --- IDEs & Editors ---
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
